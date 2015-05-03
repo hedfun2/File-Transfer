@@ -23,14 +23,11 @@ import javax.swing.JFileChooser;
 public class Server {
 
 	final int bufferSize = 8196;
-	ProgressBar bar;
 	FileChooser fc = new FileChooser();
 	File[] filesToSend;
 	String fileDestination;
 	MainWindow frame;
-
 	String username;
-	String sendFile;
 	String fileName;
 	String ip;
 	long fileSize;
@@ -46,8 +43,6 @@ public class Server {
 	int filesSent = 0;
 	long currentByte = 0;
 	BigDecimal bd;
-	String beginWord = "mA0cs/Mzar4YEOye6GUj2V5McPq8Cdr766R2g+MtdC8=";
-	String endWord = "mA0cs/Mzar4YEOye6GUj2V5McPq8gdr766R2g+MtdC8=";
 	InputStreamReader inReadMessage;
 	BufferedReader brMessage;
 	OutputStreamWriter outWriteMessage;
@@ -218,16 +213,17 @@ public class Server {
 		}
 	}
 
-	public void connectToServer(int port, String serverIp) {
+	public void connectToServer(int serverPort, String serverIp) {
 		frame.printMessage("Attempting to connect to the server");
 		new Thread() {
 			public void run() {
 				boolean firstError = true;
 				while (!connected) {
 					try {
-						messageS = new Socket(serverIp, port);
-						fileS = new Socket(serverIp, port);
+						messageS = new Socket(serverIp, serverPort);
+						fileS = new Socket(serverIp, serverPort);
 						ip = serverIp;
+						port = serverPort;
 						connected();
 					} catch (IOException e) {
 						if (firstError) {
